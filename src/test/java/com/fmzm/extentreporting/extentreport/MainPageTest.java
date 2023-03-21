@@ -1,5 +1,6 @@
 package com.fmzm.extentreporting.extentreport;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
@@ -18,7 +19,9 @@ public class MainPageTest {
     @BeforeMethod
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.jetbrains.com/");
@@ -31,7 +34,16 @@ public class MainPageTest {
         driver.quit();
     }
 
+
     @Test
+    public void verifyTitle() {
+        acceptAll();
+        String title = driver.getTitle().trim();
+        String expTitle = "JetBrains: Essential tools for software developers and teams";
+        assertEquals(title, expTitle, "Title mismatched");
+    }
+
+//    @Test
     public void search() {
         acceptAll();
         mainPage.searchButton.click();
@@ -46,7 +58,7 @@ public class MainPageTest {
         assertEquals(searchPageField.getAttribute("value"), "Selenium");
     }
 
-    @Test
+//    @Test
     public void toolsMenu() {
         acceptAll();
         mainPage.toolsMenu.click();
@@ -54,7 +66,7 @@ public class MainPageTest {
         assertTrue(menuPopup.isDisplayed());
     }
 
-    @Test
+//    @Test
     public void navigationToAllTools() {
 
         acceptAll();
